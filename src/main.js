@@ -1,11 +1,11 @@
-import GameState from './gameState.js';
-import CookieCanvas from './cookieCanvas.js';
-import UIDisplay from './uiDisplay.js';
+import GameState from './gameState';
+import CookieGame from './game/cookieGame';
+import UIDisplay from './uiDisplay';
 
 document.addEventListener('DOMContentLoaded', () => {
     const gameState = new GameState();
-    const cookieCanvas = new CookieCanvas(gameState);
-    const uiDisplay = new UIDisplay(gameState);
+    const game = new CookieGame(gameState);
+    const ui = new UIDisplay(gameState);
     
-    cookieCanvas.start();
+    game.start();
 });

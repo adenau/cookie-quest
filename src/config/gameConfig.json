@@ -1,0 +1,85 @@
+{
+    "strings": {
+      "title": "Cookie Quest",
+      "instructions": "Click on the cookie to make more cookies.\nBuy factories for passive cookie income.",
+      "buyFactory": "🏭 Buy Cookie Factory",
+      "resetGame": "Reset Game",
+      "levelUp": {
+        "title": "🎉 Level Up! 🎉",
+        "reached": "You reached level",
+        "newCookiesPerClick": "New cookies per click:"
+      },
+      "stats": {
+        "cookies": "Cookies",
+        "perClick": "Per Click",
+        "factories": "Factories",
+        "nextFactory": "Next Factory",
+        "level": "Level"
+      }
+    },
+    "cookie": {
+        "baseSize": 2,
+        "thickness": 0.3,
+        "rotateSpeed": 90,
+        "clickableRadius": 0.4,
+        "rotation": {
+          "baseRotationX": 90,
+          "wobbleAmount": 30,
+          "wobbleSpeed": 1.5,
+          "idleWobbleAmount": 5,
+          "idleWobbleSpeed": 1000  
+        }
+    },
+    "particles": {
+      "count": 8,
+      "size": 0.3,
+      "lifetime": 1.5,
+      "minSpeed": 2,
+      "maxSpeed": 5
+    },
+    "camera": {
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 10
+      },
+      "fov": 45
+    },
+    "gameplay": {
+      "initialCookiesPerClick": 1,
+      "factoryBasePrice": 10,
+      "factoryPriceIncrease": 1.15,
+      "factoryProductionRate": 1,
+      "autoClickerInterval": 1
+    },
+    "ui": {
+      "colors": {
+        "primary": "#FFD700",
+        "secondary": "#4CAF50",
+        "danger": "#dc3545",
+        "background": "rgba(0, 0, 0, 0.5)"
+      }
+    },
+    "levels": [
+      { "level": 1, "requiredCookies": 10, "reward": { "cookiesPerClick": 2 } },
+      { "level": 2, "requiredCookies": 30, "reward": { "cookiesPerClick": 3 } },
+      { "level": 3, "requiredCookies": 90, "reward": { "cookiesPerClick": 4 } },
+      { "level": 4, "requiredCookies": 210, "reward": { "cookiesPerClick": 5 } },
+      { "level": 5, "requiredCookies": 450, "reward": { "cookiesPerClick": 7 } },
+      { "level": 6, "requiredCookies": 930, "reward": { "cookiesPerClick": 9 } },
+      { "level": 7, "requiredCookies": 1890, "reward": { "cookiesPerClick": 12 } },
+      { "level": 8, "requiredCookies": 3810, "reward": { "cookiesPerClick": 15 } },
+      { "level": 9, "requiredCookies": 7650, "reward": { "cookiesPerClick": 19 } },
+      { "level": 10, "requiredCookies": 15330, "reward": { "cookiesPerClick": 24 } },
+      { "level": 11, "requiredCookies": 30690, "reward": { "cookiesPerClick": 30 } },
+      { "level": 12, "requiredCookies": 61410, "reward": { "cookiesPerClick": 37 } },
+      { "level": 13, "requiredCookies": 122850, "reward": { "cookiesPerClick": 46 } },
+      { "level": 14, "requiredCookies": 245730, "reward": { "cookiesPerClick": 57 } },
+      { "level": 15, "requiredCookies": 491490, "reward": { "cookiesPerClick": 71 } },
+      { "level": 16, "requiredCookies": 983010, "reward": { "cookiesPerClick": 88 } },
+      { "level": 17, "requiredCookies": 1966050, "reward": { "cookiesPerClick": 109 } },
+      { "level": 18, "requiredCookies": 3932130, "reward": { "cookiesPerClick": 135 } },
+      { "level": 19, "requiredCookies": 7864290, "reward": { "cookiesPerClick": 167 } },
+      { "level": 20, "requiredCookies": 15728610, "reward": { "cookiesPerClick": 207 } }
+    ]
+  }
