@@ -2,7 +2,7 @@ import config from './config/gameConfig.json';
 
 class GameState {
     constructor() {
-        this.listeners = []; // Initialize listeners array first
+        this.listeners = [];
         this.reset();
     }
 
@@ -16,10 +16,91 @@ class GameState {
         this.notifyListeners('reset');
     }
 
+    saveGame() {
+        try {
+            const saveData = {
+                cookies: this.cookies,
+                cookiesPerClick: this.cookiesPerClick,
+                autoClickers: this.autoClickers,
+                autoClickerCost: this.autoClickerCost,
+                level: this.level,
+                nextLevelRequirement: this.nextLevelRequirement,
+                version: '1.0' // Add version for future compatibility
+            };
+            
+            localStorage.setItem('cookieQuestSave', JSON.stringify(saveData));
+            return true;
+        } catch (error) {
+            console.error('Save failed:', error);
+            return false;
+        }
+    }
+
+    loadGame() {
+        try {
+            const savedData = localStorage.getItem('cookieQuestSave');
+            if (!savedData) {
+                return false;
+            }
+
+            const data = JSON.parse(savedData);
+            
+            // Validate loaded data
+            if (!this.isValidSaveData(data)) {
+                return false;
+            }
+
+            // Apply the loaded data
+            this.cookies = Number(data.cookies);
+            this.cookiesPerClick = Number(data.cookiesPerClick);
+            this.autoClickers = Number(data.autoClickers);
+            this.autoClickerCost = Number(data.autoClickerCost);
+            this.level = Number(data.level);
+            this.nextLevelRequirement = Number(data.nextLevelRequirement);
+
+            this.notifyListeners('load');
+            return true;
+        } catch (error) {
+            console.error('Load failed:', error);
+            return false;
+        }
+    }
+
+    isValidSaveData(data) {
+        const requiredKeys = [
+            'cookies',
+            'cookiesPerClick',
+            'autoClickers',
+            'autoClickerCost',
+            'level',
+            'nextLevelRequirement'
+        ];
+
+        // Check if all required keys exist and have valid values
+        return requiredKeys.every(key => {
+            const value = data[key];
+            return value !== undefined && 
+                   value !== null && 
+                   !isNaN(Number(value)) &&
+                   Number(value) >= 0;
+        });
+    }
+
     addCookies(amount) {
         this.cookies += amount;
         this.checkLevelUp();
         this.notifyListeners('update');
+    }
+
+    purchaseAutoClicker() {
+        if (this.cookies >= this.autoClickerCost) {
+            this.cookies -= this.autoClickerCost;
+            this.autoClickers++;
+            this.autoClickerCost = Math.floor(this.autoClickerCost * config.gameplay.factoryPriceIncrease);
+            this.notifyListeners('update');
+            return true;
+        }
+        return false;
     }
 
     checkLevelUp() {
@@ -48,25 +129,12 @@ class GameState {
         }
     }
 
-    purchaseAutoClicker() {
-        if (this.cookies >= this.autoClickerCost) {
-            this.cookies -= this.autoClickerCost;
-            this.autoClickers++;
-            this.autoClickerCost = Math.floor(this.autoClickerCost * config.gameplay.factoryPriceIncrease);
-            this.notifyListeners('update');
-            return true;
-        }
-        return false;
-    }
-
     addListener(callback) {
         this.listeners.push(callback);
     }
 
     notifyListeners(event = 'update') {
-        if (this.listeners) {
-            this.listeners.forEach(callback => callback(this.getState(), event));
-        }
+        this.listeners.forEach(callback => callback(this.getState(), event));
     }
 
     getState() {

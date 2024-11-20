@@ -3,7 +3,17 @@
       "title": "Cookie Quest",
       "instructions": "Click on the cookie to make more cookies.\nBuy factories for passive cookie income.",
       "buyFactory": "🏭 Buy Cookie Factory",
+      "saveGame": "💾 Save Game",
+      "loadGame": "📂 Load Game",
       "resetGame": "Reset Game",
+      "notifications": {
+        "saveSuccess": "🎮 Game Progress Saved!",
+        "loadSuccess": "📥 Game Progress Loaded!",
+        "loadError": "❌ No Saved Game Found",
+        "saveError": "❌ Failed to Save Game",
+        "resetSuccess": "🔄 Game Reset Complete"
+    },
+    "confirmReset": "Are you sure you want to reset the game?\nAll progress will be lost.",
       "levelUp": {
         "title": "🎉 Level Up! 🎉",
         "reached": "You reached level",
@@ -49,7 +59,7 @@
       "initialCookiesPerClick": 1,
       "factoryBasePrice": 10,
       "factoryPriceIncrease": 1.15,
-      "factoryProductionRate": 1,
+      "factoryProductionRate": 5,
       "autoClickerInterval": 1
     },
     "ui": {

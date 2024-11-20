@@ -1,5 +1,6 @@
 import config from './config/gameConfig.json';
- 
+import './styles/ui.css';
+
 class UIDisplay {
     constructor(gameState) {
         this.gameState = gameState;
@@ -14,242 +15,85 @@ class UIDisplay {
     }
 
     createUI() {
-        // Create main container
+        // Main container
         this.container = document.createElement('div');
         this.container.id = 'uiContainer';
         document.body.appendChild(this.container);
 
-        // Create title
+        // Game title
         this.title = document.createElement('div');
         this.title.id = 'gameTitle';
-        this.title.textContent = 'Cookie Quest';
+        this.title.textContent = config.strings.title;
         this.container.appendChild(this.title);
 
-        // Create stats container
+        // Stats container
         this.ui = document.createElement('div');
         this.ui.id = 'ui';
         this.container.appendChild(this.ui);
 
-        // Create level container
+        // Level container
         this.levelContainer = document.createElement('div');
         this.levelContainer.id = 'levelContainer';
         this.container.appendChild(this.levelContainer);
 
-        // Create button container
-        this.buttonContainer = document.createElement('div');
-        this.buttonContainer.id = 'buttonContainer';
-        this.container.appendChild(this.buttonContainer);
-
-        // Create buy button
-        this.buyButton = document.createElement('button');
-        this.buyButton.id = 'buyButton';
-        this.buyButton.innerHTML = '🏭 Buy Cookie Factory';
-        this.buttonContainer.appendChild(this.buyButton);
-
-        // Add instructions
+        // Instructions
         this.instructions = document.createElement('div');
         this.instructions.id = 'instructions';
         this.instructions.textContent = config.strings.instructions;
         this.container.appendChild(this.instructions);
 
-        // Add reset button
-        this.resetButton = document.createElement('button');
-        this.resetButton.id = 'resetButton';
-        this.resetButton.innerHTML = config.strings.resetGame;
-        this.buttonContainer.appendChild(this.resetButton);
+        // Button container
+        this.buttonContainer = document.createElement('div');
+        this.buttonContainer.id = 'buttonContainer';
+        this.container.appendChild(this.buttonContainer);
 
-        this.addStyles();
+        // Game buttons
+        this.createButton('buyButton', config.strings.buyFactory);
+        this.createButton('saveButton', config.strings.saveGame);
+        this.createButton('loadButton', config.strings.loadGame);
+        this.createButton('resetButton', config.strings.resetGame);
+
         this.updateUI();
     }
 
-    addStyles() {
-        const styles = document.createElement('style');
-        styles.textContent = `
-            #uiContainer {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                pointer-events: none;
-                z-index: 2;
-                user-select: none;
-            }
-
-            #gameTitle {
-                position: absolute;
-                top: 20px;
-                left: 20px;
-                color: #FFD700;
-                font-family: 'Arial', sans-serif;
-                font-size: 32px;
-                font-weight: bold;
-                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            }
-
-            #ui {
-                position: absolute;
-                top: 20px;
-                right: 20px;
-                color: white;
-                font-family: 'Arial', sans-serif;
-                font-size: 18px;
-                text-align: right;
-                background: rgba(0, 0, 0, 0.5);
-                padding: 15px;
-                border-radius: 10px;
-                min-width: 200px;
-            }
-
-            #levelContainer {
-                position: absolute;
-                top: 160px;
-                right: 20px;
-                color: white;
-                font-family: 'Arial', sans-serif;
-                font-size: 18px;
-                text-align: right;
-                background: rgba(0, 0, 0, 0.5);
-                padding: 15px;
-                border-radius: 10px;
-                min-width: 200px;
-            }
-
-            #buttonContainer {
-                position: absolute;
-                top: 280px;
-                right: 20px;
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-                pointer-events: auto;
-            }
-
-            #buyButton {
-                padding: 10px 20px;
-                font-size: 16px;
-                color: white;
-                background: linear-gradient(to bottom, #4CAF50, #45a049);
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                transition: transform 0.1s, background 0.3s;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            }
-
-            #buyButton:hover {
-                transform: scale(1.05);
-                background: linear-gradient(to bottom, #45a049, #409344);
-            }
-
-            #buyButton:active {
-                transform: scale(0.95);
-            }
-
-            #progressBar {
-                width: 100%;
-                height: 10px;
-                background: rgba(255, 255, 255, 0.2);
-                border-radius: 5px;
-                margin-top: 10px;
-                overflow: hidden;
-            }
-
-            #progressBarFill {
-                height: 100%;
-                background: #FFD700;
-                width: 0%;
-                transition: width 0.3s ease;
-            }
-
-            .level-up-notification {
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background: rgba(0, 0, 0, 0.8);
-                color: #FFD700;
-                padding: 20px;
-                border-radius: 10px;
-                text-align: center;
-                animation: fadeInOut 2s ease forwards;
-                z-index: 1000;
-                pointer-events: none;
-            }
-
-            @keyframes fadeInOut {
-                0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
-                10% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
-                20% { transform: translate(-50%, -50%) scale(1); }
-                80% { opacity: 1; }
-                100% { opacity: 0; }
-            }
-            #instructions {
-                position: absolute;
-                left: 50%;
-                top: 60%;
-                transform: translateX(-50%);
-                color: white;
-                font-family: 'Arial', sans-serif;
-                font-size: 18px;
-                text-align: center;
-                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-                white-space: pre-line;
-                pointer-events: none;
-            }
-
-            #resetButton {
-                padding: 10px 20px;
-                font-size: 16px;
-                color: white;
-                background: linear-gradient(to bottom, ${config.ui.colors.danger}, #c82333);
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                transition: transform 0.1s, background 0.3s;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-                margin-top: 10px;
-            }
-
-            #resetButton:hover {
-                transform: scale(1.05);
-                background: linear-gradient(to bottom, #c82333, #bd2130);
-            }
-
-            #resetButton:active {
-                transform: scale(0.95);
-            }
-        `;
-        document.head.appendChild(styles);
+    createButton(id, text) {
+        const button = document.createElement('button');
+        button.id = id;
+        button.className = 'game-button';
+        button.innerHTML = text;
+        this.buttonContainer.appendChild(button);
+        return button;
     }
 
-    showLevelUpNotification(level) {
+    showNotification(message, type = 'success') {
         const notification = document.createElement('div');
-        notification.className = 'level-up-notification';
-        notification.innerHTML = `
-            <h2>🎉 Level Up! 🎉</h2>
-            <p>You reached level ${level}!</p>
-            <p>New cookies per click: ${config.levels[level - 1].reward.cookiesPerClick}</p>
-        `;
+        notification.className = `notification ${type}`;
+        notification.innerHTML = `<div class="message">${message}</div>`;
         document.body.appendChild(notification);
 
+        requestAnimationFrame(() => notification.classList.add('show'));
+
         setTimeout(() => {
-            notification.remove();
+            notification.classList.add('hide');
+            setTimeout(() => notification.remove(), 300);
         }, 2000);
     }
 
     updateUI() {
         const state = this.gameState.getState();
+        
+        // Update stats
         this.ui.innerHTML = `
-            <div style="margin-bottom: 8px;">🍪 ${state.cookies.toLocaleString()} ${config.strings.stats.cookies}</div>
-            <div style="margin-bottom: 8px;">${config.strings.stats.perClick}: ${state.cookiesPerClick}</div>
-            <div style="margin-bottom: 8px;">🏭 ${config.strings.stats.factories}: ${state.autoClickers}</div>
-            <div>${config.strings.stats.nextFactory}: ${state.autoClickerCost.toLocaleString()}</div>
+            <div class="stat-row">🍪 ${state.cookies.toLocaleString()} ${config.strings.stats.cookies}</div>
+            <div class="stat-row">${config.strings.stats.perClick}: ${state.cookiesPerClick}</div>
+            <div class="stat-row">🏭 ${config.strings.stats.factories}: ${state.autoClickers}</div>
+            <div class="stat-row">${config.strings.stats.nextFactory}: ${state.autoClickerCost.toLocaleString()}</div>
         `;
 
+        // Update level info
         this.levelContainer.innerHTML = `
-            <div>Level ${state.level}</div>
-            <div style="font-size: 14px; opacity: 0.8;">
+            <div>${config.strings.stats.level} ${state.level}</div>
+            <div class="progress-text">
                 ${state.cookies.toLocaleString()} / ${state.nextLevelRequirement.toLocaleString()} cookies
             </div>
             <div id="progressBar">
@@ -258,18 +102,84 @@ class UIDisplay {
         `;
     }
 
-    setupEventListeners() {
-        this.buyButton.addEventListener('click', () => {
-            this.gameState.purchaseAutoClicker();
-        });
+    showLevelUpNotification(level) {
+        const notification = document.createElement('div');
+        notification.className = 'notification success level-up';
+        notification.innerHTML = `
+            <div class="message">
+                <div class="notification-title">${config.strings.levelUp.title}</div>
+                <div>${config.strings.levelUp.reached} ${level}!</div>
+                <div>${config.strings.levelUp.newCookiesPerClick} ${config.levels[level - 1].reward.cookiesPerClick}</div>
+            </div>
+        `;
+        document.body.appendChild(notification);
 
-        this.resetButton.addEventListener('click', () => {
-            if (confirm('Are you sure you want to reset the game? All progress will be lost.')) {
-                this.gameState.reset();
-            }
+        requestAnimationFrame(() => notification.classList.add('show'));
+
+        setTimeout(() => {
+            notification.classList.add('hide');
+            setTimeout(() => notification.remove(), 300);
+        }, 2000);
+    }
+
+    showConfirmDialog(message) {
+        return new Promise((resolve) => {
+            const dialog = document.createElement('div');
+            dialog.className = 'notification confirm';
+            dialog.innerHTML = `
+                <div class="message">
+                    <div class="notification-title">${message}</div>
+                    <div class="confirm-buttons">
+                        <button class="confirm-button confirm-yes">Yes</button>
+                        <button class="confirm-button confirm-no">No</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(dialog);
+
+            const handleClick = (result) => {
+                dialog.classList.add('hide');
+                setTimeout(() => dialog.remove(), 300);
+                resolve(result);
+            };
+
+            dialog.querySelector('.confirm-yes').addEventListener('click', () => handleClick(true));
+            dialog.querySelector('.confirm-no').addEventListener('click', () => handleClick(false));
+
+            requestAnimationFrame(() => dialog.classList.add('show'));
         });
     }
 
+    setupEventListeners() {
+        const buttons = {
+            buyButton: () => this.gameState.purchaseAutoClicker(),
+            saveButton: () => {
+                if (this.gameState.saveGame()) {
+                    this.showNotification(config.strings.notifications.saveSuccess, 'success');
+                } else {
+                    this.showNotification(config.strings.notifications.saveError, 'error');
+                }
+            },
+            loadButton: () => {
+                if (this.gameState.loadGame()) {
+                    this.showNotification(config.strings.notifications.loadSuccess, 'success');
+                } else {
+                    this.showNotification(config.strings.notifications.loadError, 'error');
+                }
+            },
+            resetButton: async () => {
+                const confirmed = await this.showConfirmDialog(config.strings.confirmReset);
+                if (confirmed) {
+                    this.gameState.reset();
+                    this.showNotification(config.strings.notifications.resetSuccess, 'success');
+                }
+            }
+        };
+
+        Object.entries(buttons).forEach(([id, handler]) => {
+            document.getElementById(id).addEventListener('click', handler);
+        });
+    }
 }
 
 export default UIDisplay;
