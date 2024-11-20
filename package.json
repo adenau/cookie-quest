@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "playcanvas": "^2.2.2",
+    "vite": "^5.4.11"
+  }
+}
