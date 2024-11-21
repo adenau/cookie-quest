@@ -1,7 +1,3 @@
-# cookie-quest
-Cookie Quest HTML 5 Game
-
-
 # Cookie Quest 🍪
 
 Cookie Quest is a 3D Cookie Clicker clone built with JavaScript and PlayCanvas. Click cookies, build factories, and watch your cookie empire grow! This project was developed as an exploration of AI-assisted game development, specifically pair programming with Anthropic's Claude AI.
