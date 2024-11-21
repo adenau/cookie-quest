@@ -17,19 +17,56 @@ class CookieGame {
         this.autoClickerTimer = 0;
     }
 
+    checkClick(clientX, clientY) {
+        const rect = this.core.canvas.getBoundingClientRect();
+        
+        // Convert client coordinates to canvas coordinates
+        const x = clientX - rect.left;
+        const y = clientY - rect.top;
+        
+        // Convert to normalized device coordinates (-1 to 1)
+        const ndcX = (x / rect.width) * 2 - 1;
+        const ndcY = -((y / rect.height) * 2 - 1);
+        
+        const clickRadius = Math.sqrt(ndcX * ndcX + ndcY * ndcY);
+        
+        if (clickRadius <= 0.4) {
+            this.cookie.startRotation();
+            this.particles.emitParticles(this.cookie.getTexture());
+            this.gameState.addCookies(this.gameState.cookiesPerClick);
+            return true;
+        }
+        return false;
+    }
+
     setupEventListeners() {
+        // Mouse click handling
         this.core.app.mouse.on(pc.EVENT_MOUSEDOWN, (event) => {
-            const rect = this.core.canvas.getBoundingClientRect();
-            const x = ((event.x - rect.left) / rect.width) * 2 - 1;
-            const y = -((event.y - rect.top) / rect.height) * 2 + 1;
-            
-            if (Math.sqrt(x * x + y * y) <= 0.4) {
-                this.cookie.startRotation();
-                this.particles.emitParticles(this.cookie.getTexture());
-                this.gameState.addCookies(this.gameState.cookiesPerClick);
-            }
+            this.checkClick(event.x, event.y);
         });
 
+        // Touch handling - using standard DOM events for better mobile support
+        this.core.canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            if (e.touches.length > 0) {
+                const touch = e.touches[0];
+                this.checkClick(touch.clientX, touch.clientY);
+            }
+        }, { passive: false });
+
+        // Prevent scrolling/zooming while touching the canvas
+        this.core.canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+        }, { passive: false });
+
+        this.core.canvas.addEventListener('touchend', (e) => {
+            e.preventDefault();
+        }, { passive: false });
+
+        // Add touch-action CSS property
+        this.core.canvas.style.touchAction = 'none';
+
+        // Regular game update
         this.core.app.on('update', (dt) => this.update(dt));
     }
 
@@ -42,7 +79,7 @@ class CookieGame {
             if (this.autoClickerTimer >= 1) {
                 this.autoClickerTimer = 0;
                 this.particles.emitParticles(this.cookie.getTexture(), this.gameState.autoClickers);
-                this.gameState.addCookies(this.gameState.autoClickers);
+                this.gameState.addCookies(this.gameState.calculateFactoryProduction());
             }
         }
     }
