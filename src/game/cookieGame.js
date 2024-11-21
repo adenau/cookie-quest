@@ -1,3 +1,4 @@
+import * as pc from 'playcanvas';
 import CanvasCore from '../engine/canvasCore';
 import CookieModel from './cookieModel';
 import ParticleSystem from './particleSystem';

@@ -6,6 +6,9 @@ html, body {
     overflow: hidden;
     position: fixed;
     background-color: #1a1a1a;
+    /* Add these two properties */
+    touch-action: none;
+    -webkit-touch-callout: none;
 }
 
 canvas {
@@ -28,6 +31,8 @@ button {
     color: white;
     border: none;
     border-radius: 5px;
+    /* Add touch-action none to buttons */
+    touch-action: none;
 }
 
 button:hover {

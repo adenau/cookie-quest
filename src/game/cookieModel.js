@@ -1,3 +1,4 @@
+import * as pc from 'playcanvas';
 import config from '../config/gameConfig.json';
 
 class CookieModel {

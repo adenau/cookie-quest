@@ -1,3 +1,4 @@
+import * as pc from 'playcanvas';
 import GameState from './gameState';
 import CookieGame from './game/cookieGame';
 import UIDisplay from './uiDisplay';

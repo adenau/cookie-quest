@@ -1,3 +1,5 @@
+import * as pc from 'playcanvas';
+
 class CanvasCore {
     constructor() {
         this.initializeEngine();
