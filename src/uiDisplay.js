@@ -61,6 +61,18 @@ class UIDisplay {
         button.id = id;
         button.className = 'game-button';
         button.innerHTML = text;
+        
+        // Prevent double-tap zoom
+        button.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            // Small delay to prevent ghost clicks
+            setTimeout(() => {
+                if (!button.disabled) {
+                    button.click();
+                }
+            }, 100);
+        });
+    
         this.buttonContainer.appendChild(button);
         return button;
     }
