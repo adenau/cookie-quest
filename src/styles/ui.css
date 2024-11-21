@@ -276,3 +276,114 @@
     80% { opacity: 1; }
     100% { opacity: 0; }
 }
+
+/* Add these media queries to ui.css */
+
+/* Mobile-specific styles */
+@media screen and (max-width: 768px) {
+    /* Game Title */
+    #gameTitle {
+        font-size: 24px;
+        top: 10px;
+        left: 10px;
+    }
+
+    /* Stats Display */
+    #ui {
+        top: 10px;
+        right: 10px;
+        font-size: 14px;
+        padding: 10px;
+        min-width: 150px;
+    }
+
+    /* Level Display */
+    #levelContainer {
+        top: 120px;
+        right: 10px;
+        font-size: 14px;
+        padding: 10px;
+        min-width: 150px;
+    }
+
+    /* Instructions */
+    #instructions {
+        font-size: 14px;
+        top: 85%;
+        padding: 0 20px;
+    }
+
+    /* Button Container */
+    #buttonContainer {
+        bottom: 10px;
+        right: 10px;
+        gap: 5px;
+    }
+
+    /* Game Buttons */
+    .game-button {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    /* Notifications */
+    .notification {
+        font-size: 16px;
+        padding: 15px 30px;
+        min-width: 200px;
+    }
+
+    .notification-title {
+        font-size: 20px;
+    }
+
+    /* Ensure UI elements don't overlap */
+    .stat-row {
+        margin-bottom: 4px;
+    }
+
+    /* Make progress bar more compact */
+    #progressBar {
+        height: 8px;
+    }
+
+    /* Adjust confirmation dialog */
+    .notification.confirm {
+        padding: 20px 30px;
+    }
+
+    .confirm-button {
+        padding: 6px 18px;
+        font-size: 14px;
+    }
+
+    #instructions {
+        font-size: 12px;
+        top: 65%; /* Move it higher */
+        padding: 0 20px;
+        line-height: 1.4;
+        opacity: 0.8; /* Make it slightly transparent */
+    }
+}
+
+/* Small mobile devices */
+@media screen and (max-width: 380px) {
+    #gameTitle {
+        font-size: 20px;
+    }
+
+    #ui, #levelContainer {
+        font-size: 12px;
+        min-width: 130px;
+    }
+
+    .game-button {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    #instructions {
+        font-size: 11px;
+        top: 60%; /* Even higher for very small screens */
+    }
+}

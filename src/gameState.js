@@ -11,9 +11,20 @@ class GameState {
         this.cookiesPerClick = config.gameplay.initialCookiesPerClick;
         this.autoClickers = 0;
         this.autoClickerCost = config.gameplay.factoryBasePrice;
+        this.factoryBaseProduction = config.gameplay.factoryBaseProduction || 1;
         this.level = 1;
         this.nextLevelRequirement = config.levels[0].requiredCookies;
         this.notifyListeners('reset');
+    }
+
+    calculateFactoryProduction() {
+        // Each factory is more powerful than the last
+        // This creates an exponential growth in production
+        let totalProduction = 0;
+        for (let i = 0; i < this.autoClickers; i++) {
+            totalProduction += Math.floor(this.factoryBaseProduction * Math.pow(1.15, i));
+        }
+        return totalProduction;
     }
 
     saveGame() {
@@ -23,6 +34,7 @@ class GameState {
                 cookiesPerClick: this.cookiesPerClick,
                 autoClickers: this.autoClickers,
                 autoClickerCost: this.autoClickerCost,
+                factoryBaseProduction: this.factoryBaseProduction,
                 level: this.level,
                 nextLevelRequirement: this.nextLevelRequirement,
                 version: '1.0' // Add version for future compatibility
@@ -55,6 +67,7 @@ class GameState {
             this.cookiesPerClick = Number(data.cookiesPerClick);
             this.autoClickers = Number(data.autoClickers);
             this.autoClickerCost = Number(data.autoClickerCost);
+            this.factoryBaseProduction = Number(data.factoryBaseProduction);
             this.level = Number(data.level);
             this.nextLevelRequirement = Number(data.nextLevelRequirement);
 
@@ -72,6 +85,7 @@ class GameState {
             'cookiesPerClick',
             'autoClickers',
             'autoClickerCost',
+            'factoryBaseProduction',
             'level',
             'nextLevelRequirement'
         ];
@@ -96,7 +110,11 @@ class GameState {
         if (this.cookies >= this.autoClickerCost) {
             this.cookies -= this.autoClickerCost;
             this.autoClickers++;
-            this.autoClickerCost = Math.floor(this.autoClickerCost * config.gameplay.factoryPriceIncrease);
+            // Increase cost exponentially
+            this.autoClickerCost = Math.floor(
+                config.gameplay.factoryBasePrice * 
+                Math.pow(config.gameplay.factoryPriceIncrease, this.autoClickers)
+            );
             this.notifyListeners('update');
             return true;
         }
@@ -143,6 +161,7 @@ class GameState {
             cookiesPerClick: this.cookiesPerClick,
             autoClickers: this.autoClickers,
             autoClickerCost: this.autoClickerCost,
+            factoryProduction: this.calculateFactoryProduction(),
             level: this.level,
             nextLevelRequirement: this.nextLevelRequirement,
             progress: this.nextLevelRequirement ? this.cookies / this.nextLevelRequirement : 0

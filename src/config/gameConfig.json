@@ -56,11 +56,11 @@
       "fov": 45
     },
     "gameplay": {
-      "initialCookiesPerClick": 1,
-      "factoryBasePrice": 10,
-      "factoryPriceIncrease": 1.15,
-      "factoryProductionRate": 5,
-      "autoClickerInterval": 1
+        "initialCookiesPerClick": 1,
+        "factoryBasePrice": 10,
+        "factoryPriceIncrease": 1.15,
+        "factoryBaseProduction": 1,
+        "autoClickerInterval": 1
     },
     "ui": {
       "colors": {
